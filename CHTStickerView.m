@@ -248,16 +248,40 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       break;
 
     case UIGestureRecognizerStateChanged:
-      self.center = CGPointMake(beginningCenter.x + (touchLocation.x - beginningPoint.x),
-                                beginningCenter.y + (touchLocation.y - beginningPoint.y));
-      if ([self.delegate respondsToSelector:@selector(stickerViewDidChangeMoving:)]) {
-        [self.delegate stickerViewDidChangeMoving:self];
+      {
+          if (self.constraintMove) {
+              
+              CGPoint translation = [recognizer translationInView:self.superview];
+              CGPoint newcenter = CGPointMake(beginningCenter.x + translation.x, beginningCenter.y + translation.y);
+              
+              float halfx = CGRectGetMidX(self.bounds);
+              newcenter.x = MAX(halfx, newcenter.x);
+              newcenter.x = MIN(self.superview.bounds.size.width - halfx, newcenter.x);
+              
+              float halfy = CGRectGetMidY(self.bounds);
+              newcenter.y = MAX(halfy, newcenter.y);
+              newcenter.y = MIN(self.superview.bounds.size.height - halfy, newcenter.y);
+              
+              self.center = newcenter;
+              
+          } else {
+            
+              self.center = CGPointMake(beginningCenter.x + (touchLocation.x - beginningPoint.x),
+                                        beginningCenter.y + (touchLocation.y - beginningPoint.y));
+          }
+          
+          if ([self.delegate respondsToSelector:@selector(stickerViewDidChangeMoving:)]) {
+            [self.delegate stickerViewDidChangeMoving:self];
+          }
       }
       break;
 
     case UIGestureRecognizerStateEnded:
-      self.center = CGPointMake(beginningCenter.x + (touchLocation.x - beginningPoint.x),
-                                beginningCenter.y + (touchLocation.y - beginningPoint.y));
+          if (!self.constraintMove) {
+              
+              self.center = CGPointMake(beginningCenter.x + (touchLocation.x - beginningPoint.x),
+                                        beginningCenter.y + (touchLocation.y - beginningPoint.y));
+          }
       if ([self.delegate respondsToSelector:@selector(stickerViewDidEndMoving:)]) {
         [self.delegate stickerViewDidEndMoving:self];
       }
