@@ -53,6 +53,8 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 @property (nonatomic, strong) UIColor *outlineBorderColor;
 /// A convenient property for you to store extra information.
 @property (nonatomic, strong) NSDictionary *userInfo;
+// enable move bounds
+@property (nonatomic, assign) BOOL constraintMove;
 
 /**
  *  Initialize a sticker view. This is the designated initializer.
