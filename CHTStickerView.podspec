@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.screenshots  = "https://raw.github.com/chiahsien/CHTStickerView/master/screenshot.png"
   s.license      = 'MIT'
   s.author       = { "Nelson" => "chiahsien@gmail.com" }
-  s.source       = { :git => "https://github.com/chiahsien/CHTStickerView.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/stephenzl/CHTStickerView.git", :tag => s.version.to_s }
   s.platform     = :ios, '6.0'
   s.source_files = '*.{h,m}'
   s.requires_arc = true
